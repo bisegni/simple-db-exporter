@@ -25,7 +25,7 @@ var csvCommand = &cobra.Command{
 		var outputFilePath string
 		var rowLimit int
 
-		columns, _ = cmd.Flags().GetStringArray("column")
+		columns, _ = cmd.Flags().GetStringSlice("column")
 		outputFilePath, _ = cmd.Flags().GetString("destination-file")
 		rowLimit, _ = cmd.Flags().GetInt("max-row-num")
 		if err := service.RunCSVExport(uri, table, columns, rowLimit, outputFilePath); err != nil {
@@ -38,7 +38,7 @@ var csvCommand = &cobra.Command{
 // Initialize the flag
 func init() {
 	csvCommand.Flags().StringP("destination-file", "d", "export.csv", "specify the name of the export file")
-	csvCommand.Flags().StringArrayP("column", "c", []string{}, "Specify columns to be exporte")
+	csvCommand.Flags().StringSliceP("column", "c", []string{}, "Specify columns to be exporte")
 	csvCommand.Flags().IntP("max-row-num", "n", -1, "Specify numbero of row to be exported")
 	rootCmd.AddCommand(csvCommand)
 }

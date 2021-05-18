@@ -27,7 +27,6 @@ func RunCSVExport(uri string, table string, extractColumn []string, rowLimit int
 	if err != nil {
 		return fmt.Errorf("QueryRow failed: %v", err)
 	}
-	defer rows.Close()
 
 	if err := os.MkdirAll(path.Dir(file), os.ModePerm); err != nil {
 		return err
@@ -68,7 +67,7 @@ func RunCSVExport(uri string, table string, extractColumn []string, rowLimit int
 		for i, col := range columns {
 			if len(extractColumn) > 0 {
 				l := sort.SearchStrings(extractColumn, col)
-				if l == len(extractColumn) || extractColumn[l] == col {
+				if l == len(extractColumn) || extractColumn[l] != col {
 					continue
 				}
 			}
