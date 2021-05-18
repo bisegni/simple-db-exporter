@@ -4,7 +4,7 @@
 *.dll
 *.so
 *.dylib
-simple-db-exporter
+simple-db-exporter*
 
 # Test binary, built with `go test -c`
 *.test
