@@ -10,6 +10,6 @@
         "mode": "auto",
         "program": "${workspaceFolder}/main.go",
         "env": {},
-        "args": ["csv", "postgresql://postgres:postgres@127.0.0.1:5432/test-db", "test_data", "--max-row-num", "10"]
+        "args": ["csv", "postgresql://postgres:postgres@127.0.0.1:5432/test-db", "test_data", "--max-row-num", "10", "--column", "NaMe"]
     }]
 }

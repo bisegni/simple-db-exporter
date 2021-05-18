@@ -7,6 +7,7 @@ import (
 	"os"
 	"path"
 	"sort"
+	"strings"
 
 	"github.com/jackc/pgx/v4"
 )
@@ -46,7 +47,7 @@ func RunCSVExport(uri string, table string, extractColumn []string, rowLimit int
 	for _, col := range fieldDescriptions {
 		columns = append(columns, string(col.Name))
 	}
-
+	extractColumn = Map(extractColumn, strings.ToLower)
 	sort.Strings(extractColumn)
 	fmt.Print("exporting ")
 	for rows.Next() {
@@ -66,8 +67,9 @@ func RunCSVExport(uri string, table string, extractColumn []string, rowLimit int
 
 		for i, col := range columns {
 			if len(extractColumn) > 0 {
-				l := sort.SearchStrings(extractColumn, col)
-				if l == len(extractColumn) || extractColumn[l] != col {
+				lCol := strings.ToLower(col)
+				l := sort.SearchStrings(extractColumn, lCol)
+				if l == len(extractColumn) || extractColumn[l] != lCol {
 					continue
 				}
 			}
@@ -79,4 +81,12 @@ func RunCSVExport(uri string, table string, extractColumn []string, rowLimit int
 	}
 	fmt.Println(" done!")
 	return nil
+}
+
+func Map(vs []string, f func(string) string) []string {
+	vsm := make([]string, len(vs))
+	for i, v := range vs {
+		vsm[i] = f(v)
+	}
+	return vsm
 }
