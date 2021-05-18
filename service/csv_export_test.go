@@ -20,6 +20,7 @@ func TestSelectAllCol(t *testing.T) {
 		"postgres://postgres:postgres@localhost:5432/test-db",
 		"test_data",
 		[]string{},
+		-1,
 		filePath,
 	)
 	assert.NoError(t, err)
@@ -42,6 +43,7 @@ func TestSelectFilteredColumn(t *testing.T) {
 		"postgres://postgres:postgres@localhost:5432/test-db",
 		"test_data",
 		[]string{"name"},
+		-1,
 		filePath,
 	)
 	assert.NoError(t, err)

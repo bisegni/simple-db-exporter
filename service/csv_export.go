@@ -12,8 +12,9 @@ import (
 )
 
 // RunCSVExport ...
-func RunCSVExport(uri string, table string, extractColumn []string, file string) error {
+func RunCSVExport(uri string, table string, extractColumn []string, rowLimit int, file string) error {
 	// urlExample := "postgres://username:password@localhost:5432/database_name"
+	var totalRecord int = 0
 	fmt.Printf("Connecting to %s ", uri)
 	conn, err := pgx.Connect(context.Background(), uri)
 	if err != nil {
@@ -48,8 +49,16 @@ func RunCSVExport(uri string, table string, extractColumn []string, file string)
 	}
 
 	sort.Strings(extractColumn)
-
+	fmt.Print("exporting ")
 	for rows.Next() {
+		if rowLimit != -1 &&
+			totalRecord >= rowLimit {
+			break
+		}
+		if totalRecord%10 == 0 {
+			fmt.Print(".")
+		}
+		totalRecord++
 		var entry []string
 		data, err := rows.Values()
 		if err != nil {
@@ -69,6 +78,6 @@ func RunCSVExport(uri string, table string, extractColumn []string, file string)
 			return err
 		}
 	}
-
+	fmt.Println(" done!")
 	return nil
 }
