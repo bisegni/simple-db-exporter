@@ -9,6 +9,7 @@ on:
 jobs:
 
   build:
+    timeout-minutes: 10
     runs-on: ubuntu-latest
     steps:
     - uses: actions/checkout@v2
@@ -20,6 +21,14 @@ jobs:
 
     - name: Build
       run: go build -v ./...
+  
+    - name: Start containers
+      run: docker-compose -f "docker-compose-oracle.yml" up -d --build
 
     # - name: Test
     #   run: go test -v ./...
+
+    - name: Stop containers
+      if: always()
+      run: docker-compose -f "docker-compose-oracle.yml" down
+
