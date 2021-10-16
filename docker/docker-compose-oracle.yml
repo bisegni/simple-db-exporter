@@ -1,8 +1,10 @@
 version: '3.7'
 services:
   oracle:
-      image: oracleinanutshell/oracle-xe-11g
-      environment: 
-          - ORACLE_ALLOW_REMOTE=true
-      ports: 
-          - 1521:1521
+    image: oracleinanutshell/oracle-xe-11g
+    environment: 
+        - ORACLE_ALLOW_REMOTE=true
+    ports: 
+        - 1521:1521
+    volumes:
+        - ./init-oracle/init.sql /docker-entrypoint-initdb.d/init.sql
