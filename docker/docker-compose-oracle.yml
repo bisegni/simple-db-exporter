@@ -1,8 +1,8 @@
 version: '3.7'
-  services:
-    oracle:
-        image: oracleinanutshell/oracle-xe-11g
-        environment: 
-            - ORACLE_ALLOW_REMOTE=true
-        ports: 
-            - 1521:1521
+services:
+  oracle:
+      image: oracleinanutshell/oracle-xe-11g
+      environment: 
+          - ORACLE_ALLOW_REMOTE=true
+      ports: 
+          - 1521:1521
