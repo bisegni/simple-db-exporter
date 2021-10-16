@@ -23,6 +23,7 @@ require (
 	github.com/mitchellh/go-homedir v1.1.0 // indirect
 	github.com/pmezard/go-difflib v1.0.0 // indirect
 	github.com/prometheus/tsdb v0.7.1 // indirect
+	github.com/sijms/go-ora/v2 v2.2.9 // indirect
 	github.com/sirupsen/logrus v1.8.1
 	github.com/spf13/cobra v1.2.1
 	github.com/spf13/pflag v1.0.5 // indirect
