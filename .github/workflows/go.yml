@@ -2,7 +2,9 @@ name: Go
 
 on:
   push:
-    branches: [ main ]
+    branches:
+      - main
+      - 'feature/**-alpha'
   pull_request:
     branches: [ main ]
 
