@@ -23,17 +23,15 @@ jobs:
 
     - name: Build
       run: go build -v ./...
-  
-    - name: Start containers
-      run: ls -la
+
 
     - name: Start containers
-      run: docker-compose -f "./docker/docker-compose-oracle.yml" up -d --build
+      run: docker-compose -f "docker/docker-compose-oracle.yml" up -d --build
 
     # - name: Test
     #   run: go test -v ./...
 
     - name: Stop containers
       if: always()
-      run: docker-compose -f "./docker/docker-compose-oracle.yml" down
+      run: docker-compose -f "docker/docker-compose-oracle.yml" down
 
