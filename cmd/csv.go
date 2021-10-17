@@ -35,10 +35,39 @@ var csvCommand = &cobra.Command{
 	},
 }
 
+var oracleExport = &cobra.Command{
+	Use:   "oracle",
+	Short: "Export oracle query as inser postgress sql file",
+	Long: `Usage:
+	simple-db-exporter oracle {USER}:{PASSWORD}@{HOSTNAME}/{SID} /sql/file/path table_name /dest/file/path 
+	`,
+	Run: func(cmd *cobra.Command, args []string) {
+		if len(args) != 4 {
+			fmt.Println("bad argument number")
+			os.Exit(1)
+		}
+		var oracle_uri string = args[0]
+		var oracleQueryFile string = args[1]
+		var destTableName string = args[2]
+		var destinationFile string = args[3]
+
+		if err := service.ExportOracleQuery(
+			oracle_uri,
+			oracleQueryFile,
+			destTableName,
+			destinationFile); err != nil {
+			fmt.Println(err)
+			os.Exit(1)
+		}
+	},
+}
+
 // Initialize the flag
 func init() {
 	csvCommand.Flags().StringP("destination-file", "d", "export.csv", "specify the name of the export file")
 	csvCommand.Flags().StringSliceP("column", "c", []string{}, "Specify columns to be exporte")
 	csvCommand.Flags().IntP("max-row-num", "n", -1, "Specify numbero of row to be exported")
 	rootCmd.AddCommand(csvCommand)
+
+	rootCmd.AddCommand(oracleExport)
 }
