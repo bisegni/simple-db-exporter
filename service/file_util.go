@@ -26,6 +26,17 @@ func FSExists(path string) (bool, error) {
 	return false, err
 }
 
+// FSRemove ...
+func FSRemove(path string) error {
+	if _, err := os.Stat(path); err == nil {
+		return err
+	}
+	if err := os.Remove(path); err != nil {
+		return err
+	}
+	return nil
+}
+
 // FSWorkOnDirectoryInPath ...
 func FSWorkOnDirectoryInPath(p string, workFunc DirWorkFunc) error {
 	fileInfo, err := ioutil.ReadDir(p)

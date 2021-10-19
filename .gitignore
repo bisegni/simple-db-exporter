@@ -16,4 +16,5 @@ simple-db-exporter*
 # Dependency directories (remove the comment below to include it)
 # vendor/
 output
+input
 run.sql

@@ -62,12 +62,41 @@ var oracleExport = &cobra.Command{
 	},
 }
 
+var fromToExport = &cobra.Command{
+	Use:   "export",
+	Short: "Export many sql file to the correspective insert file in an output folder",
+	Long: `Usage:
+	simple-db-exporter export {USER}:{PASSWORD}@{HOSTNAME}/{SID} /sql/folder/path /dest/folder/path 
+	`,
+	Run: func(cmd *cobra.Command, args []string) {
+		if len(args) != 3 {
+			fmt.Println("bad argument number")
+			os.Exit(1)
+		}
+		var oracle_uri string = args[0]
+		var inpuFolder string = args[1]
+		var outputFolder string = args[2]
+		err := service.ExportFromFolderToFolder(
+			oracle_uri,
+			inpuFolder,
+			outputFolder,
+		)
+
+		if err != nil {
+			fmt.Println(err)
+			os.Exit(1)
+		}
+
+		fmt.Println("done!")
+	},
+}
+
 // Initialize the flag
 func init() {
 	csvCommand.Flags().StringP("destination-file", "d", "export.csv", "specify the name of the export file")
 	csvCommand.Flags().StringSliceP("column", "c", []string{}, "Specify columns to be exporte")
 	csvCommand.Flags().IntP("max-row-num", "n", -1, "Specify numbero of row to be exported")
 	rootCmd.AddCommand(csvCommand)
-
 	rootCmd.AddCommand(oracleExport)
+	rootCmd.AddCommand(fromToExport)
 }
