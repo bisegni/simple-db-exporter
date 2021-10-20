@@ -30,7 +30,7 @@
         "mode": "auto",
         "program": "${workspaceFolder}/main.go",
         "env": {},
-        "args": ["export", "user_test:user_test_password@localhost/xe", "input", "output"]
+        "args": ["export", "system:paperino@192.168.1.123/xe", "input", "output"]
         },
     ]
 }

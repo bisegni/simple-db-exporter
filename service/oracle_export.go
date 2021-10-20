@@ -10,7 +10,7 @@ import (
 	"path/filepath"
 	"strings"
 
-	_ "github.com/sijms/go-ora/v2"
+	_ "github.com/sijms/go-ora"
 )
 
 // ExportFromFolderToFolder ...
