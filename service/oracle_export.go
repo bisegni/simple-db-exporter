@@ -264,7 +264,10 @@ func escapeString(value string) string {
 	for i := 0; i < len(value); i++ {
 		c := value[i]
 		switch c {
-		case '\\', 0, '\n', '\r', '\'', '"':
+		case '\'':
+			sb.WriteByte('\'')
+			sb.WriteByte(c)
+		case '\\', 0, '\n', '\r', '"':
 			sb.WriteByte('\\')
 			sb.WriteByte(c)
 		case '\032':
