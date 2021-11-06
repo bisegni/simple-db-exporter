@@ -1,5 +1,4 @@
 #!/bin/sh
-#system:paperino@192.168.1.123/xe
 ORA_URI=$1
 INPUT_FOLDER=$2
 OUTPUT_FOLDER=$3
@@ -49,12 +48,12 @@ echo "[$(date '+%d/%m/%Y %H:%M:%S')] Import exported sql file from $INPUT_FOLDER
 for filename in output/*.sql; do
    REAL_FILE_PATH=$(cd $(dirname $filename); pwd)/$(basename $filename);
    echo "[$(date '+%d/%m/%Y %H:%M:%S')] Import $REAL_FILE_PATH" >> $LOG_FILE
-   # PGPASSWORD=$PG_PWD psql -U $PG_USER -h $PG_HOST -d $PG_SCHEMA < $REAL_FILE_PATH
-   # if [ $? -ne 0 ]
-   # then
-   #    echo "[$(date '+%d/%m/%Y %H:%M:%S')] error during data import" >> $LOG_FILE
-   #    exit 1
-   # fi
+   PGPASSWORD=$PG_PWD psql -U $PG_USER -h $PG_HOST -d $PG_SCHEMA < $REAL_FILE_PATH
+   if [ $? -ne 0 ]
+   then
+      echo "[$(date '+%d/%m/%Y %H:%M:%S')] error during data import" >> $LOG_FILE
+      exit 1
+   fi
 done
 
 echo "[$(date '+%d/%m/%Y %H:%M:%S')] work done" >> $LOG_FILE

@@ -122,6 +122,8 @@ func exportSingleFile(
 		filepath.Base(sqlFilePath),
 		filepath.Ext(filepath.Base(sqlFilePath)),
 	)
+	f.WriteString(fmt.Sprintf("TRUNCATE TABLE %s;\n", destTableName))
+	f.WriteString("BEGIN;\n")
 	for rows.Next() {
 		// define vars
 		err := rows.Scan(readCols...)
@@ -139,11 +141,11 @@ func exportSingleFile(
 			}
 		}
 
-		f.WriteString(fmt.Sprintf("INSERT INTO %s values (%s)\n", destTableName, b.String()))
+		f.WriteString(fmt.Sprintf("INSERT INTO %s values (%s);\n", destTableName, b.String()))
 	}
+	f.WriteString("COMMIT;\n")
 	// check for error
 	defer rows.Close()
-
 	return nil
 }
 
@@ -206,6 +208,9 @@ func ExportOracleQuery(
 	for i, _ := range writeCols {
 		readCols[i] = &writeCols[i]
 	}
+
+	f.WriteString(fmt.Sprintf("TRUNCATE TABLE %s;\n", destTableName))
+	f.WriteString("BEGIN;\n")
 	for rows.Next() {
 		// define vars
 		err := rows.Scan(readCols...)
@@ -225,6 +230,7 @@ func ExportOracleQuery(
 
 		f.WriteString(fmt.Sprintf("INSERT INTO %s values (%s);\n", destTableName, b.String()))
 	}
+	f.WriteString("COMMIT;\n")
 	// check for error
 	defer rows.Close()
 
