@@ -223,7 +223,7 @@ func ExportOracleQuery(
 			}
 		}
 
-		f.WriteString(fmt.Sprintf("INSERT INTO %s values (%s)\n", destTableName, b.String()))
+		f.WriteString(fmt.Sprintf("INSERT INTO %s values (%s);\n", destTableName, b.String()))
 	}
 	// check for error
 	defer rows.Close()
@@ -241,10 +241,32 @@ func ExportOracleQuery(
 
 func writeDataInBuffer(column interface{}, buf *bytes.Buffer) {
 	switch v := column.(type) {
+	case nil:
+		buf.WriteString("null")
 	case string:
-		buf.WriteString(fmt.Sprintf("'%v'", v))
+		buf.WriteString(
+			fmt.Sprintf("'%v'", escapeString(v)),
+		)
 	default:
 		// And here I'm feeling dumb. ;)
 		buf.WriteString(fmt.Sprintf("%v", v))
 	}
+}
+
+func escapeString(value string) string {
+	var sb strings.Builder
+	for i := 0; i < len(value); i++ {
+		c := value[i]
+		switch c {
+		case '\\', 0, '\n', '\r', '\'', '"':
+			sb.WriteByte('\\')
+			sb.WriteByte(c)
+		case '\032':
+			sb.WriteByte('\\')
+			sb.WriteByte('Z')
+		default:
+			sb.WriteByte(c)
+		}
+	}
+	return sb.String()
 }
