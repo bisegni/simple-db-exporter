@@ -18,3 +18,5 @@ simple-db-exporter*
 output
 input
 run.sql
+old
+transfer.log
