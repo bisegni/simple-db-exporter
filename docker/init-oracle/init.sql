@@ -24,9 +24,10 @@ CREATE TABLE user_test.table_test (
     id NUMBER,
     first_name VARCHAR2(50) NOT NULL,
     last_name VARCHAR2(50) NOT NULL,
+    last_date DATE NOT NULL,
     PRIMARY KEY(id)
 );
 
-insert into user_test.table_test values (1, 'nome_1', 'cognome_1');
-insert into user_test.table_test values (2, 'nome_2', 'cognome_2');
-insert into user_test.table_test values (3, 'nome_3', 'cognome_3');
+insert into user_test.table_test values (1, 'nome_1', 'cognome_1', SYSDATE);
+insert into user_test.table_test values (2, 'nome_2', 'cognome_2', SYSDATE);
+insert into user_test.table_test values (3, 'nome_3', 'cognome_3', SYSDATE);

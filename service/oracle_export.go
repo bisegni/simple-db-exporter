@@ -9,6 +9,7 @@ import (
 	"os"
 	"path/filepath"
 	"strings"
+	"time"
 
 	_ "github.com/sijms/go-ora"
 )
@@ -252,6 +253,10 @@ func writeDataInBuffer(column interface{}, buf *bytes.Buffer) {
 	case string:
 		buf.WriteString(
 			fmt.Sprintf("'%v'", escapeString(v)),
+		)
+	case time.Time:
+		buf.WriteString(
+			fmt.Sprintf("'%v'", v.Format("2006-01-02 15:04:05")),
 		)
 	default:
 		// And here I'm feeling dumb. ;)
